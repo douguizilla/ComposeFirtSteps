@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -27,24 +28,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val painter = painterResource(id = R.drawable.kermit2)
-            val description = "Kermit is drinking tea"
-            val title = "Kermit is drinking tea"
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(16.dp)
-            ) {
-                ImageCard(
-                    painter = painter,
-                    contentDescription = description,
-                    title = title
-                )
-            }
+
         }
     }
 }
 
+
+@Composable
+fun ImageCard(){
+    val painter = painterResource(id = R.drawable.kermit2)
+    val description = "Kermit is drinking tea"
+    val title = "Kermit is drinking tea"
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(0.5f)
+            .padding(16.dp)
+    ) {
+        ImageCard(
+            painter = painter,
+            contentDescription = description,
+            title = title
+        )
+    }
+}
 
 @Composable
 fun ImageCard(
