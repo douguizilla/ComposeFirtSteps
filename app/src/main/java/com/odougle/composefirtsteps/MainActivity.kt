@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun LazyList(){
     LazyColumn {
