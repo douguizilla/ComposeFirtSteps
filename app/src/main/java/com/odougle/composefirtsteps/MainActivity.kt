@@ -1,17 +1,14 @@
 package com.odougle.composefirtsteps
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +18,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.odougle.composefirtsteps.ui.theme.ComposeFirtStepsTheme
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -32,16 +29,34 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TextFieldAndSnackBar()
+
         }
     }
 }
 
+@Composable
+fun LazyList(){
+    LazyColumn {
+        itemsIndexed(
+            listOf("this", "is", "jetpack", "compose")
+        ) { index, string ->
+            Text(
+                text = string,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
+            )
+        }
+    }
+}
 
 @Composable
-fun TextFieldAndSnackBar(){
+fun TextFieldAndSnackBar() {
     val scaffoldState = rememberScaffoldState()
-    var textFieldState by remember{
+    var textFieldState by remember {
         mutableStateOf("")
     }
 
@@ -91,7 +106,7 @@ fun TextFieldAndSnackBar(){
 @Composable
 fun ColorBox(
     modifier: Modifier = Modifier
-){
+) {
     val color = remember {
         mutableStateOf(Color.Yellow)
     }
@@ -112,7 +127,7 @@ fun ColorBox(
 
 
 @Composable
-fun ImageCard(){
+fun ImageCard() {
     val painter = painterResource(id = R.drawable.kermit2)
     val description = "Kermit is drinking tea"
     val title = "Kermit is drinking tea"
@@ -148,17 +163,19 @@ fun ImageCard(
                 contentScale = ContentScale.Crop
             )
 
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black
-                        ),
-                        startY = 300f
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black
+                            ),
+                            startY = 300f
+                        )
                     )
-                ))
+            )
 
             Box(
                 modifier = Modifier
