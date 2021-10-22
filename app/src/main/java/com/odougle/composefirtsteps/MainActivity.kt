@@ -3,6 +3,8 @@ package com.odougle.composefirtsteps
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,9 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -36,30 +36,66 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
         }
     }
 }
 
 @Composable
-fun constraintLayout(){
+fun CircularProgressBar(
+    percentage: Float,
+    number: Int,
+    fontSize: TextUnit = 28.sp,
+    radius: Dp = 50.dp,
+    color: Color = Color.Green,
+    strokeWidth: Int = 1000,
+    animDuration: Int = 1000,
+    animDelay: Int = 0
+) {
+    var animationPlayed by remember {
+        mutableStateOf(false)
+    }
+
+    val curPercentage = animateFloatAsState(
+        targetValue = if(animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+
+    LaunchedEffect(key1 = true){
+        animationPlayed = true
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.size(radius * 2f)
+    ){
+
+    }
+}
+
+@Composable
+fun ConstraintLayout() {
     val constraints = ConstraintSet {
         val greenBox = createRefFor("greenBox")
         val redBox = createRefFor("redBox")
         val guideLine = createGuidelineFromTop(0.5f)
 
-        constrain(greenBox){
+        constrain(greenBox) {
             top.linkTo(guideLine)
             start.linkTo(parent.start)
             width = Dimension.value(100.dp)
             height = Dimension.value(100.dp)
         }
-        constrain(redBox){
+        constrain(redBox) {
             top.linkTo(parent.top)
             start.linkTo(greenBox.end)
             width = Dimension.value(100.dp)
             height = Dimension.value(100.dp)
         }
-        createHorizontalChain(greenBox,redBox, chainStyle = ChainStyle.Packed)
+        createHorizontalChain(greenBox, redBox, chainStyle = ChainStyle.Packed)
     }
 
     ConstraintLayout(
@@ -87,7 +123,7 @@ fun constraintLayout(){
 }
 
 @Composable
-fun LazyList(){
+fun LazyList() {
     LazyColumn {
         itemsIndexed(
             listOf("this", "is", "jetpack", "compose")
