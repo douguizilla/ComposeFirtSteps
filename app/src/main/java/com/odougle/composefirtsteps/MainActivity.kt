@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -36,7 +38,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ){
+                CircularProgressBar(percentage = 0.8f, number = 100)
+            }
         }
     }
 }
@@ -48,7 +55,7 @@ fun CircularProgressBar(
     fontSize: TextUnit = 28.sp,
     radius: Dp = 50.dp,
     color: Color = Color.Green,
-    strokeWidth: Int = 1000,
+    strokeWidth: Dp = 8.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0
 ) {
@@ -72,7 +79,23 @@ fun CircularProgressBar(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(radius * 2f)
     ){
-
+        Canvas(
+            modifier = Modifier.size(radius * 2f)
+        ){
+            drawArc(
+                color = color,
+                -90f,
+                360 * curPercentage.value,
+                useCenter = false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        Text(
+            text = (curPercentage.value * number).toInt().toString(),
+            color = Color.Black,
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
